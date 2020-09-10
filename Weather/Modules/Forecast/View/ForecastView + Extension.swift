@@ -50,7 +50,6 @@ extension ForecastView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let dayOfWeek = forecastWeatherByDays?.weatherByDays[section].dayOfWeek ?? ""
-        print(dayOfWeek)
         return headerView(dayOfWeek)
     }
 

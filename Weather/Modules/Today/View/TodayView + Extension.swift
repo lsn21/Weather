@@ -100,6 +100,22 @@ extension TodayView {
         return windDirectionLabel
     }
     
+    func makeShareButton() -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setTitle("Share", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 28)
+        button.addTarget(self, action: #selector(shareButtonTapped(_:)), for: .touchUpInside)
+        addSubview(button)
+        button.snp.makeConstraints { make in
+            make.top.equalTo(windDirectionLabel.snp.bottom).offset(32)
+            make.left.equalTo(self)
+            make.right.equalTo(self)
+            make.height.equalTo(44)
+        }
+        return button
+    }
+    
     func makeLabel(size: CGFloat, color: UIColor = .black) -> UILabel {
         let label = UILabel()
         label.textColor = color
@@ -107,5 +123,41 @@ extension TodayView {
         label.textAlignment = .center
         addSubview(label)
         return label
+    }
+    
+    @objc func shareButtonTapped(_ sender: Any) {
+        
+        let activityItem = "Weather for today:\n\(currentWeather?.name ?? ""), \(currentWeather?.sys.country ?? "")\nHumidity: \(currentWeather?.mainValue.humidity ?? 0)%\nPressure: \(currentWeather?.mainValue.pressure ?? 0) hPa\nWind speed: \(currentWeather?.wind.speed ?? 0) km/h\nWind direction: \(windDirection(currentWeather?.wind.deg ?? 0))"
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [activityItem], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+        activityViewController.popoverPresentationController?.sourceView = (sender as! UIButton)
+        
+        // This line remove the arrow of the popover to show in iPad
+        activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.down
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+        UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        delegate?.present(activityViewController, animated: true, completion: nil)
     }
 }

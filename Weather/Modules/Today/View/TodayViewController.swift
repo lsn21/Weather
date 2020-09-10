@@ -27,6 +27,7 @@ class TodayViewController: UIViewController {
     
     private func createView() {
         todayView = TodayView()
+        todayView.delegate = self
         view.addSubview(todayView)
         todayView.snp.makeConstraints { make in
             make.top.equalTo(view)

@@ -10,12 +10,15 @@ import UIKit
 
 class TodayView: UIView {
     
+    var delegate: TodayViewController?
+    
     var viewData: TodayViewData = .loading {
         didSet {
             setNeedsLayout()
         }
     }
-
+    var currentWeather: CurrentWeather?
+    
     lazy var activityIndicator = makeActivityIndicatorView()
     lazy var imageView = makeImageView()
     lazy var cityLabel = makeCityLabel()
@@ -25,6 +28,7 @@ class TodayView: UIView {
     lazy var pressureLabel = makePressureLabel()
     lazy var windSpeedLabel = makeWindSpeedLabel()
     lazy var windDirectionLabel = makeWindDirectionLabel()
+    var shareButton: UIButton?
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -46,6 +50,8 @@ class TodayView: UIView {
     }
     
     private func update(viewData: CurrentWeather?, isHidden: Bool) {
+        currentWeather = viewData
+        shareButton = makeShareButton()
         imageView.image = UIImage(named: viewData?.elements.first?.icon ?? "")
         cityLabel.text = "\(viewData?.name ?? ""), \(viewData?.sys.country ?? "")"
         temperatureLabel.text = "\(Int(round(viewData?.mainValue.temp ?? 0)))°C | \(viewData?.elements.first?.main ?? "")"
@@ -62,9 +68,10 @@ class TodayView: UIView {
         pressureLabel.isHidden = isHidden
         windSpeedLabel.isHidden = isHidden
         windDirectionLabel.isHidden = isHidden
+        shareButton?.isHidden = isHidden
     }
     
-    private func windDirection(_ deg: Int) -> String {
+    func windDirection(_ deg: Int) -> String {
         var direction = ""
         
         switch deg {

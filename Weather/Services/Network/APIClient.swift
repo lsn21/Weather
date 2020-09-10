@@ -43,8 +43,6 @@ class APIClient {
         let task = session.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let data = data {
-                    let json = try! JSONSerialization.jsonObject(with: data, options: [])
-                    print(json)
                     guard let httpResponse = response as? HTTPURLResponse else {
                         completion(nil, ResponseError.requestFailed)
                         return
