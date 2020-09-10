@@ -51,4 +51,34 @@ struct ForecastWeatherResponse: Codable {
 
         return result
     }
+    
+    var byDaysList: ForecastWeatherByDays {
+        
+        var result = ForecastWeatherByDays.emptyInit()
+        result.city = city.name
+        
+        guard var before = list.first else {
+            return result
+        }
+        var forecastWeatherByDays = ForecastWeatherByDay.emptyInit()
+        forecastWeatherByDays.dayOfWeek = "Today"
+
+        for weather in list {
+            
+            if weather.date.dateFromMilliseconds().dayWord() == before.date.dateFromMilliseconds().dayWord() {
+                forecastWeatherByDays.forecastWeather.append(weather)
+            }
+            else {
+                result.weatherByDays.append(forecastWeatherByDays)
+                before = weather
+                forecastWeatherByDays = ForecastWeatherByDay.emptyInit()
+                forecastWeatherByDays.forecastWeather.append(weather)
+                forecastWeatherByDays.dayOfWeek = weather.date.dateFromMilliseconds().dayWord()
+            }
+        }
+        result.weatherByDays.append(forecastWeatherByDays)
+
+        return result
+    }
+    
 }

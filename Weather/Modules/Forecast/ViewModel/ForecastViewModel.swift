@@ -8,69 +8,55 @@
 
 import Foundation
 
-final class ForecastViewModel: ObservableObject {
+protocol ForecastViewModelProtocol {
+    var updateViewData: ((ForecastViewData)->())? { get set }
+}
+
+final class ForecastViewModel: ForecastViewModelProtocol {
     
-        // MARK: - Properties
-        let client = APIClient()
-        
-        var stateView: StateView = StateView.loading {
-            willSet {
-                objectWillChange.send()
-            }
-        }
+    var updateViewData: ((ForecastViewData) -> ())?
+    let client = APIClient()
+    
+    var stateView: StateView = StateView.loading
+    
+    var forecastWeatherByDays: ForecastWeatherByDays?
 
-        var hourlyWeathers: [ForecastWeather] = [] {
-            willSet {
-                objectWillChange.send()
-            }
-        }
+    private var stateForecastWeather = StateView.loading
 
-        var dailyWeathers: [ForecastWeather] = [] {
-            willSet {
-                objectWillChange.send()
-            }
-        }
+    init() {
+        getData()
+    }
+    
+    func retry() {
+        stateView = .loading
+        stateForecastWeather = .loading
         
-        private var stateCurrentWeather = StateView.loading
-        private var stateForecastWeather = StateView.loading
-
-        init() {
-            //getData()
-        }
+        getData()
+    }
+    
+    private func getData() {
         
-        func retry() {
-            stateView = .loading
-            stateForecastWeather = .loading
-            
-            getData()
-        }
-        
-        private func getData() {
-            
-            client.getForecastWeather(at: Location.shared.getLocation()) { [weak self] forecastWeatherResponse, error in
-                guard let ws = self else { return }
-                if let forecastWeatherResponse = forecastWeatherResponse {
-                    ws.hourlyWeathers = forecastWeatherResponse.list
-                    ws.dailyWeathers = forecastWeatherResponse.dailyList
-                    ws.stateForecastWeather = .success
-                } else {
-                    ws.stateForecastWeather = .failed
-                }
-                ws.updateStateView()
+        client.getForecastWeather(at: Location.shared.getLocation()) { [weak self] forecastWeatherResponse, error in
+            guard let ws = self else { return }
+            if let forecastWeatherResponse = forecastWeatherResponse {
+                ws.forecastWeatherByDays = forecastWeatherResponse.byDaysList
+                ws.stateForecastWeather = .success
             }
-        }
-            
-        private func updateStateView() {
-            if stateCurrentWeather == .success, stateForecastWeather == .success {
-                stateView = .success
+            else {
+                ws.stateForecastWeather = .failed
             }
-            
-            if stateCurrentWeather == .failed, stateForecastWeather == .failed {
-                stateView = .failed
-            }
-        }
-        func viewDidLoad() {
-
-            getData()
+            ws.updateStateView()
         }
     }
+        
+    private func updateStateView() {
+        if stateForecastWeather == .success {
+            stateView = .success
+            updateViewData?(.success(forecastWeatherByDays ?? ForecastWeatherByDays.emptyInit()))
+        }
+        
+        if stateForecastWeather == .failed {
+            stateView = .failed
+        }
+    }
+}

@@ -16,8 +16,8 @@ class TodayView: UIView {
         }
     }
 
-    lazy var imageView = makeImageView()
     lazy var activityIndicator = makeActivityIndicatorView()
+    lazy var imageView = makeImageView()
     lazy var cityLabel = makeCityLabel()
     lazy var temperatureLabel = makeTemperatureLabel()
 
@@ -31,7 +31,7 @@ class TodayView: UIView {
         
         switch viewData {
         case .loading:
-            update(viewData: nil, isHidden: false)
+            update(viewData: nil, isHidden: true)
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
         case .success(let success):
@@ -58,6 +58,10 @@ class TodayView: UIView {
         imageView.isHidden = isHidden
         cityLabel.isHidden = isHidden
         temperatureLabel.isHidden = isHidden
+        humidityLabel.isHidden = isHidden
+        pressureLabel.isHidden = isHidden
+        windSpeedLabel.isHidden = isHidden
+        windDirectionLabel.isHidden = isHidden
     }
     
     private func windDirection(_ deg: Int) -> String {

@@ -36,7 +36,8 @@ final class TodayViewModel: TodayViewModelProtocol {
             if let currentWeather = currentWeather {
                 ws.currentWeather = currentWeather
                 ws.stateCurrentWeather = .success
-            } else {
+            }
+            else {
                 ws.stateCurrentWeather = .failed
             }
             ws.updateStateView()

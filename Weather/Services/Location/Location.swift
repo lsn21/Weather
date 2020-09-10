@@ -36,23 +36,6 @@ class Location: CLLocationManager, CLLocationManagerDelegate {
         return coordinate
     }
 
-    func getPlacemark() -> CLPlacemark {
-        
-        var placeMark: CLPlacemark!
-        if let location = location {
-            geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-
-                placeMark = placemarks?.first
-            })
-        }
-        return placeMark
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        //location = locations.last! as CLLocation
-    }
-
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:

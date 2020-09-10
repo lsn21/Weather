@@ -11,8 +11,6 @@ import SnapKit
 
 class TodayViewController: UIViewController {
 
-    @IBOutlet weak var placeLabel: UILabel!
-    
     var viewModel: TodayViewModelProtocol!
     private var todayView: TodayView!
 
