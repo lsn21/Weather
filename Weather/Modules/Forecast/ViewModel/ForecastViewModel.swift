@@ -17,20 +17,11 @@ final class ForecastViewModel: ForecastViewModelProtocol {
     var updateViewData: ((ForecastViewData) -> ())?
     let client = APIClient()
     
-    var stateView: StateView = StateView.loading
-    
     var forecastWeatherByDays: ForecastWeatherByDays?
 
     private var stateForecastWeather = StateView.loading
 
     init() {
-        getData()
-    }
-    
-    func retry() {
-        stateView = .loading
-        stateForecastWeather = .loading
-        
         getData()
     }
     
@@ -43,7 +34,12 @@ final class ForecastViewModel: ForecastViewModelProtocol {
                 ws.stateForecastWeather = .success
             }
             else {
-                ws.stateForecastWeather = .failed
+                if Reachability.isConnectedToNetwork(){
+                    ws.stateForecastWeather = .failed
+                }
+                else{
+                    ws.stateForecastWeather = .noInternet
+                }
             }
             ws.updateStateView()
         }
@@ -51,12 +47,13 @@ final class ForecastViewModel: ForecastViewModelProtocol {
         
     private func updateStateView() {
         if stateForecastWeather == .success {
-            stateView = .success
             updateViewData?(.success(forecastWeatherByDays ?? ForecastWeatherByDays.emptyInit()))
         }
-        
         if stateForecastWeather == .failed {
-            stateView = .failed
+            updateViewData?(.failed(true))
+        }
+        if stateForecastWeather == .noInternet {
+            updateViewData?(.failed(false))
         }
     }
 }

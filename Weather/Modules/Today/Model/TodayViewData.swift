@@ -11,5 +11,5 @@ import Foundation
 enum TodayViewData {
     case loading
     case success(CurrentWeather)
-    case failure(CurrentWeather)
+    case failed(Bool)
 }

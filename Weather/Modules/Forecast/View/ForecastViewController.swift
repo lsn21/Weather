@@ -24,6 +24,7 @@ class ForecastViewController: UIViewController {
         
         private func createView() {
             forecastView = ForecastView()
+            forecastView.delegate = self
             view.addSubview(forecastView)
             forecastView.snp.makeConstraints { make in
                 make.top.equalTo(view)
@@ -38,12 +39,10 @@ class ForecastViewController: UIViewController {
                 guard let ws = self else { return }
                 ws.forecastView.viewData = viewData
                 switch viewData {
-                case .loading:
+                case .loading, .failed( _):
                     break
                 case .success(let success):
                     self?.navigationItem.title = success.city
-                case .failure(let failure):
-                    self?.navigationItem.title = failure.city
                 }
             }
         }

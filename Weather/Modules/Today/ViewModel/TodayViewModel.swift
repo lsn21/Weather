@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol TodayViewModelProtocol {
     var updateViewData: ((TodayViewData)->())? { get set }
@@ -17,7 +18,6 @@ final class TodayViewModel: TodayViewModelProtocol {
     var updateViewData: ((TodayViewData) -> ())?
     let client = APIClient()
     
-    var stateView: StateView = StateView.loading
     var currentWeather = CurrentWeather.emptyInit()
     
     private var stateCurrentWeather = StateView.loading
@@ -38,7 +38,12 @@ final class TodayViewModel: TodayViewModelProtocol {
                 ws.stateCurrentWeather = .success
             }
             else {
-                ws.stateCurrentWeather = .failed
+                if Reachability.isConnectedToNetwork(){
+                    ws.stateCurrentWeather = .failed
+                }
+                else{
+                    ws.stateCurrentWeather = .noInternet
+                }
             }
             ws.updateStateView()
         }
@@ -46,12 +51,14 @@ final class TodayViewModel: TodayViewModelProtocol {
         
     private func updateStateView() {
         if stateCurrentWeather == .success {
-            stateView = .success
             updateViewData?(.success(currentWeather))
         }
-        
         if stateCurrentWeather == .failed {
-            stateView = .failed
+            updateViewData?(.failed(true))
+        }
+        if stateCurrentWeather == .noInternet {
+            updateViewData?(.failed(false))
         }
     }
+
 }

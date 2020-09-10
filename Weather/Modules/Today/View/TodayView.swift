@@ -42,13 +42,27 @@ class TodayView: UIView {
             update(viewData: success, isHidden: false)
             activityIndicator.isHidden = true
             activityIndicator.stopAnimating()
-        case .failure(let failure):
-            update(viewData: failure, isHidden: false)
+        case .failed(let failed):
+            update(viewData: nil, isHidden: true)
             activityIndicator.isHidden = true
             activityIndicator.stopAnimating()
+            if failed {
+                showMessage(message: "Error retrieving data from the server.")
+            }
+            else {
+                showMessage(message: "Internet connection not available.")
+            }
         }
     }
     
+    func showMessage(message: String) {
+        let alertView = UIAlertController(title: "Error",
+                                          message: message,
+                                          preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Ok", style: .destructive, handler: nil))
+        delegate?.present(alertView, animated: true, completion: nil)
+    }
+
     private func update(viewData: CurrentWeather?, isHidden: Bool) {
         currentWeather = viewData
         shareButton = makeShareButton()

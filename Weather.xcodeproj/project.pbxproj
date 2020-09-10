@@ -10,6 +10,7 @@
 		A6998205D06F0519B77B72DD /* Pods_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A333F70D9FE224AF7DBA04D /* Pods_Weather.framework */; };
 		E189A9B62509F7FF00AF4690 /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E189A9B52509F7FF00AF4690 /* ForecastCell.swift */; };
 		E189A9B8250A1D4900AF4690 /* ForecastWeatherByDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E189A9B7250A1D4900AF4690 /* ForecastWeatherByDay.swift */; };
+		E189A9BA250A4B5900AF4690 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E189A9B9250A4B5900AF4690 /* Reachability.swift */; };
 		E18EA330250933F4005D9F9F /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18EA32F250933F4005D9F9F /* TodayView.swift */; };
 		E18EA3322509347B005D9F9F /* TodayView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18EA3312509347B005D9F9F /* TodayView + Extension.swift */; };
 		E18EA33425093531005D9F9F /* TodayViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18EA33325093531005D9F9F /* TodayViewData.swift */; };
@@ -53,6 +54,7 @@
 		C4D78288720FB77BFED9E120 /* Pods-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weather.release.xcconfig"; path = "Target Support Files/Pods-Weather/Pods-Weather.release.xcconfig"; sourceTree = "<group>"; };
 		E189A9B52509F7FF00AF4690 /* ForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
 		E189A9B7250A1D4900AF4690 /* ForecastWeatherByDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeatherByDay.swift; sourceTree = "<group>"; };
+		E189A9B9250A4B5900AF4690 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		E18EA32F250933F4005D9F9F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		E18EA3312509347B005D9F9F /* TodayView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodayView + Extension.swift"; sourceTree = "<group>"; };
 		E18EA33325093531005D9F9F /* TodayViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewData.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			children = (
 				E190FAB625066EAA009EC91D /* ResponseError.swift */,
 				E1F047A1250680A400BC6D39 /* APIClient.swift */,
+				E189A9B9250A4B5900AF4690 /* Reachability.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				E18EA33425093531005D9F9F /* TodayViewData.swift in Sources */,
 				E18EA330250933F4005D9F9F /* TodayView.swift in Sources */,
 				E190FAD2250670F8009EC91D /* StateView.swift in Sources */,
+				E189A9BA250A4B5900AF4690 /* Reachability.swift in Sources */,
 				E18EA3322509347B005D9F9F /* TodayView + Extension.swift in Sources */,
 				E1F047A2250680A400BC6D39 /* APIClient.swift in Sources */,
 				E190FADF25067590009EC91D /* Extension.swift in Sources */,

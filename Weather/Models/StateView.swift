@@ -12,4 +12,5 @@ enum StateView {
     case loading
     case success
     case failed
+    case noInternet
 }

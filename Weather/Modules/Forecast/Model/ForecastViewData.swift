@@ -11,5 +11,5 @@ import Foundation
 enum ForecastViewData {
     case loading
     case success(ForecastWeatherByDays)
-    case failure(ForecastWeatherByDays)
+    case failed(Bool)
 }
