@@ -127,7 +127,7 @@ extension TodayView {
     
     @objc func shareButtonTapped(_ sender: Any) {
         
-        let activityItem = "Weather for today:\n\(currentWeather?.name ?? ""), \(currentWeather?.sys.country ?? "")\nHumidity: \(currentWeather?.mainValue.humidity ?? 0)%\nPressure: \(currentWeather?.mainValue.pressure ?? 0) hPa\nWind speed: \(currentWeather?.wind.speed ?? 0) km/h\nWind direction: \(windDirection(currentWeather?.wind.deg ?? 0))"
+        let activityItem = "Weather for today:\n\(currentWeather?.name ?? ""), \(currentWeather?.sys.country ?? "")\n\(Int(round(currentWeather?.mainValue.temp ?? 0)))°C | \(currentWeather?.elements.first?.main ?? "")\nHumidity: \(currentWeather?.mainValue.humidity ?? 0)%\nPressure: \(currentWeather?.mainValue.pressure ?? 0) hPa\nWind speed: \(currentWeather?.wind.speed ?? 0) km/h\nWind direction: \(windDirection(currentWeather?.wind.deg ?? 0))"
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
             activityItems: [activityItem], applicationActivities: nil)
